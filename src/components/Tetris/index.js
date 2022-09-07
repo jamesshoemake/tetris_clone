@@ -7,11 +7,17 @@ import Previews from '../Previews'
 import { useBoard } from '../../hooks/useBoard'
 import { useGameStats } from '../../hooks/useGameStats'
 import { usePlayer } from '../../hooks/usePlayer'
-
+import GameController from '../GameController'
 export const Tetris = ({ rows, columns, setGameOver }) => {
   const [gameStats, addLinesCleared] = useGameStats()
-  const [board, setBoard] = useBoard({ rows, columns })
   const [player, setPlayer, resetPlayer] = usePlayer()
+  const [board, setBoard] = useBoard({
+    rows,
+    columns,
+    player,
+    resetPlayer,
+    addLinesCleared
+  })
 
   return (
     <>
@@ -20,6 +26,13 @@ export const Tetris = ({ rows, columns, setGameOver }) => {
         <Board board={board} />
       </div>
       <GameStats gameStats={gameStats} />
+      <GameController
+        board={board}
+        gameStats={gameStats}
+        player={player}
+        setGameOver={setGameOver}
+        setPlayer={setPlayer}
+      />
     </>
   )
 }
